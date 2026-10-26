@@ -1,0 +1,70 @@
+/* 1. Make <paragraphs> headings look like major <section> headers on screen AND in print */
+.pretext .worksheet section.paragraphs > .heading,
+.pretext .handout section.paragraphs > .heading,
+@media print {
+  .pretext .worksheet section.paragraphs > .heading,
+  .pretext .handout section.paragraphs > .heading
+} {
+    display: block !important;
+    font-size: 1.45rem !important;
+    font-weight: 700 !important;
+    margin-top: 1.75rem !important;
+    margin-bottom: 0.75rem !important;
+    padding-bottom: 0.25rem !important;
+    /* Browsers ALWAYS print borders, even when "Background graphics" is unchecked! */
+    border-bottom: 2px solid #334155 !important;
+    /* Prevent a major heading from sitting alone at the bottom of a printed page */
+    break-after: avoid-page;
+    page-break-after: avoid;
+}
+
+/* 2. Remove the trailing period PreTeXt adds to inline <paragraphs> titles */
+.pretext .worksheet section.paragraphs > .heading > .codenumber::after,
+.pretext .worksheet section.paragraphs > .heading > .title::after {
+    content: "" !important;
+}
+
+/* 3. Optional Print Polish: Keep individual homework exercises + their workspace together on the same page */
+@media print {
+    .pretext .worksheet .exercise,
+    .pretext .worksheet .exploration,
+    .pretext .worksheet .example {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+
+/* Force <paragraphs>, <exploration>, and <example> headings onto their own line */
+.pretext .worksheet section.paragraphs > .heading,
+.pretext .worksheet article.project-like > .heading,
+.pretext .worksheet article.example-like > .heading {
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* Optional: Add a colon after "Derivation 1" when a title is present */
+.pretext .worksheet article.project-like > .heading > .codenumber::after {
+    content: ": ";
+}
+
+/* Flow #homework into 2 vertical columns (1-8 on left, 9-16 on right) */
+#homework {
+    column-count: 2 !important;
+    column-gap: 2.5rem !important;
+}
+
+/* Keep the heading and intro paragraph spanning across the top of both columns */
+#homework > .heading,
+#homework > .para,
+#homework > p {
+    column-span: all !important;
+}
+
+/* Prevent any individual exercise + its workspace from splitting across columns or pages */
+#homework .exercise,
+#homework article.exercise-like {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    display: inline-block !important; /* Forces browsers to respect break-inside inside columns */
+    width: 100% !important;
+}
